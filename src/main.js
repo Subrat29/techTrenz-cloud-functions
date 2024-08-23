@@ -16,14 +16,17 @@ export default async ({ req, res, log, error }) => {
 
   // Log the request
   log('Fetching user details...');
+  log(`Payload: ${req.payload}`);
+  log(`Payload type: ${typeof req.payload}`);	
 
   // Parse the request payload
   let userId;
   try {
     const body = JSON.parse(req.payload);
     userId = body.userId;
+    log(`userId: ${userId}`);
   } catch (err) {
-    error(`Failed to parse JSON payload: ${err.message} || body:: ${body} || userId:: ${userId}` );
+    error(`Failed to parse JSON payload: ${err.message}` );
     return res.json({
       success: false,
       message: 'Invalid JSON payload'
