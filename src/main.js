@@ -45,13 +45,14 @@ export default async ({ req, res, log, error }) => {
   try {
     const user = await users.get(userId);
 
-    const result = res.json({
+    // Log the fetched user details
+    log(`User details fetched successfully: ${JSON.stringify(user)}`);
+
+    // Return the successful response
+    return res.json({
       success: true,
       user,
     });
-    const ans = JSON.stringify(result);
-    log(`User details fetched successfully ${JSON.stringify(result)}`);
-    return ans
   } catch (err) {
     error(`Error fetching user: ${err.message} | Stack: ${err.stack}`);
     return res.json({
