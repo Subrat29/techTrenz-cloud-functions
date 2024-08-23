@@ -1,33 +1,43 @@
-import { Client } from 'node-appwrite';
+import { Client, Users } from 'node-appwrite';
+import conf from '../conf/conf';
 
 // This is your Appwrite function
-// It's executed each time we get a request
 export default async ({ req, res, log, error }) => {
-  // Why not try the Appwrite SDK?
-  //
-  // const client = new Client()
-  //    .setEndpoint('https://cloud.appwrite.io/v1')
-  //    .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
-  //    .setKey(process.env.APPWRITE_API_KEY);
+  // Initialize the Appwrite client
+  const client = new Client();
 
-  // You can log messages to the console
-  log('Hello, Logs!');
+  // Initialize the Users service
+  const users = new Users(client);
 
-  // If something goes wrong, log an error
-  error('Hello, Errors!');
+  // Set the endpoint and project ID
+  client
+    .setEndpoint(conf.appwriteUrl) // Your Appwrite Endpoint
+    .setProject(conf.appwriteProjectId) // This comes from environment variables
+    .setKey(conf.appwriteApiKey); // Your API Key from environment variables
 
-  // The `req` object contains the request data
-  if (req.method === 'GET') {
-    // Send a response with the res object helpers
-    // `res.send()` dispatches a string back to the client
-    return res.send('Hello, World!');
+  // Log the request
+  log('Fetching user details...');
+
+  // Get the userId from the request payload
+  const { userId } = JSON.parse(req.payload);
+
+  try {
+    // Fetch the user details
+    const user = await users.get(userId);
+    
+    // Send back the user data
+    return res.json({
+      success: true,
+      user,
+    });
+  } catch (err) {
+    // Log the error
+    error(`Error fetching user: ${err.message}`);
+
+    // Send back the error message
+    return res.json({
+      success: false,
+      message: err.message,
+    });
   }
-
-  // `res.json()` is a handy helper for sending JSON
-  return res.json({
-    motto: 'Build like a team of hundreds_',
-    learn: 'https://appwrite.io/docs',
-    connect: 'https://appwrite.io/discord',
-    getInspired: 'https://builtwith.appwrite.io',
-  });
 };
