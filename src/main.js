@@ -23,7 +23,7 @@ export default async ({ req, res, log, error }) => {
     const body = JSON.parse(req.payload);
     userId = body.userId;
   } catch (err) {
-    error(`Failed to parse JSON payload: ${err.message}`);
+    error(`Failed to parse JSON payload: ${err.message} || body:: ${body} || userId:: ${userId}` );
     return res.json({
       success: false,
       message: 'Invalid JSON payload'
