@@ -16,6 +16,7 @@ export default async ({ req, res, log, error }) => {
 
   // Log the request
   log('Fetching user details...');
+  log(`Request: ${req}`);
   log(`Payload: ${req.payload}`);
   log(`Payload type: ${typeof req.payload}`);	
 
