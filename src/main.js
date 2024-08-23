@@ -56,9 +56,9 @@ export default async ({ req, res, log, error }) => {
       user,
     });
   } catch (err) {
-    // Log the error
-    error(`Error fetching user: ${err.message}`);
-
+    // Log the error with detailed info
+    error(`Error fetching user: ${err.message} | Stack: ${err.stack}`);
+    
     // Send back the error message
     return res.json({
       success: false,
