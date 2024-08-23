@@ -21,7 +21,6 @@ export default async ({ req, res, log, error }) => {
   log(`User ID : ${req.body.userId}`); // Changed from req.payload to req
   log(`User ID : ${req.userId}`); // Changed from req.payload to req
 
-
   // Parse the request payload
   let userId;
   try {
