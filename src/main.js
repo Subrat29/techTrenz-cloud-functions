@@ -27,7 +27,7 @@ export default async ({ req, res, log, error }) => {
     const body = JSON.parse(req.body);
     userId = body.userId;
   } catch (err) {
-    error(`Failed to parse JSON payload: ${err.message}` );
+    error(`Failed to parse JSON payload: ${err.message}`);
     return res.json({
       success: false,
       message: 'Invalid JSON payload'
@@ -44,12 +44,12 @@ export default async ({ req, res, log, error }) => {
 
   try {
     const user = await users.get(userId);
-    
+
     const result = res.json({
       success: true,
       user,
     });
-    log('User details fetched successfully ${JSON.stringify(result)}');
+    log(`User details fetched successfully ${JSON.stringify(result)}`);
     return result
   } catch (err) {
     error(`Error fetching user: ${err.message} | Stack: ${err.stack}`);
