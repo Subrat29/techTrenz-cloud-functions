@@ -49,8 +49,9 @@ export default async ({ req, res, log, error }) => {
       success: true,
       user,
     });
+    const ans = JSON.stringify(result);
     log(`User details fetched successfully ${JSON.stringify(result)}`);
-    return result
+    return ans
   } catch (err) {
     error(`Error fetching user: ${err.message} | Stack: ${err.stack}`);
     return res.json({
