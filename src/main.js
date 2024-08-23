@@ -1,5 +1,4 @@
 import { Client, Users } from 'node-appwrite';
-import conf from '../conf/conf';
 
 // This is your Appwrite function
 export default async ({ req, res, log, error }) => {
@@ -11,15 +10,34 @@ export default async ({ req, res, log, error }) => {
 
   // Set the endpoint and project ID
   client
-    .setEndpoint(conf.appwriteUrl) // Your Appwrite Endpoint
-    .setProject(conf.appwriteProjectId) // This comes from environment variables
-    .setKey(conf.appwriteApiKey); // Your API Key from environment variables
+    .setEndpoint(process.env.APPWRITE_URL) // Use environment variable for Appwrite Endpoint
+    .setProject(process.env.APPWRITE_PROJECT_ID) // Use environment variable for Project ID
+    .setKey(process.env.APPWRITE_API_KEY); // Use environment variable for API Key
 
   // Log the request
   log('Fetching user details...');
 
-  // Get the userId from the request payload
-  const { userId } = JSON.parse(req.payload);
+  // Parse the request payload
+  let userId;
+  try {
+    const body = JSON.parse(req.payload);
+    userId = body.userId;
+  } catch (err) {
+    error(`Failed to parse JSON payload: ${err.message}`);
+    return res.json({
+      success: false,
+      message: 'Invalid JSON payload'
+    });
+  }
+
+  // Validate userId
+  if (!userId) {
+    error('No userId provided');
+    return res.json({
+      success: false,
+      message: 'userId is required'
+    });
+  }
 
   try {
     // Fetch the user details
