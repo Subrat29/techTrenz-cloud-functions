@@ -16,16 +16,17 @@ export default async ({ req, res, log, error }) => {
 
   // Log the request
   log('Fetching user details...');
-  log(`Request: ${req}`);
-  log(`Payload: ${req.payload}`);
-  log(`Payload type: ${typeof req.payload}`);	
+  log(`Request : ${JSON.stringify(req)}`); // Changed from req.payload to req
+  log(`Payload : ${req.body}`); // Changed from req.payload to req
+  log(`User ID : ${req.body.userId}`); // Changed from req.payload to req
+  log(`User ID : ${req.userId}`); // Changed from req.payload to req
+  log
 
   // Parse the request payload
   let userId;
   try {
-    const body = JSON.parse(req.payload);
+    const body = JSON.parse(req.body); // Changed from req.payload to req.body
     userId = body.userId;
-    log(`userId: ${userId}`);
   } catch (err) {
     error(`Failed to parse JSON payload: ${err.message}` );
     return res.json({
