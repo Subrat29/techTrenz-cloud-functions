@@ -26,13 +26,13 @@ export default async ({ req, res, log, error }) => {
     log(`Extracted userId: ${userId}`);
 
     // Check if userId is provided
-    if (!userId) {
-      error('No userId provided');
-      return res.json({
-        success: false,
-        message: 'userId is required',
-      });
-    }
+    // if (!userId) {
+    //   error('No userId provided');
+    //   return res.json({
+    //     success: false,
+    //     message: 'userId is required',
+    //   });
+    // }
 
     try {
       // Attempt to fetch user details from Appwrite
