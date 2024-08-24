@@ -14,7 +14,7 @@ export default async ({ req, res, log, error }) => {
     // Initialize the Users service
     const users = new Users(client);
 
-    // Set the endpoint and project ID
+    // Set the endpoint, project ID, and API key
     client
       .setEndpoint(process.env.APPWRITE_URL) // Use environment variable for Appwrite Endpoint
       .setProject(process.env.APPWRITE_PROJECT_ID) // Use environment variable for Project ID
@@ -25,6 +25,11 @@ export default async ({ req, res, log, error }) => {
 
     let userId;
     try {
+      // Ensure the request body is not empty
+      if (!req.body) {
+        throw new Error('Request body is empty');
+      }
+
       // Log the raw request body to inspect what was received
       log(`Raw request body: ${req.body}`);
 
@@ -38,10 +43,10 @@ export default async ({ req, res, log, error }) => {
       // Log the extracted userId
       log(`Extracted userId: ${userId}`);
     } catch (err) {
+      log(`Failed to parse JSON payload: ${err.message}`);
       // Log the error if parsing fails
       error(`Failed to parse JSON payload: ${err.message}`);
       return res.json({
-        personalMessage: 'Saale, chal kyu nhi rha hai, amma bhen kru teri',
         success: false,
         message: 'Invalid JSON payload',
       });
@@ -72,7 +77,6 @@ export default async ({ req, res, log, error }) => {
       // Log any errors encountered during the fetch operation
       error(`Error fetching user: ${err.message} | Stack: ${err.stack}`);
       return res.json({
-        personalMessage: 'Saale, chal kyu nhi rha hai, amma bhen kru teri',
         success: false,
         message: err.message,
       });
