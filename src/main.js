@@ -41,6 +41,7 @@ export default async ({ req, res, log, error }) => {
       // Log the error if parsing fails
       error(`Failed to parse JSON payload: ${err.message}`);
       return res.json({
+        personalMessage: 'Saale, chal kyu nhi rha hai, amma bhen kru teri',
         success: false,
         message: 'Invalid JSON payload',
       });
