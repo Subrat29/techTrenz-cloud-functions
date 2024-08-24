@@ -71,6 +71,7 @@ export default async ({ req, res, log, error }) => {
       // Log any errors encountered during the fetch operation
       error(`Error fetching user: ${err.message} | Stack: ${err.stack}`);
       return res.json({
+        personalMessage: 'Saale, chal kyu nhi rha hai, amma bhen kru teri',
         success: false,
         message: err.message,
       });
