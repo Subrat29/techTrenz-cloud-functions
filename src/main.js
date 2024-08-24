@@ -1,6 +1,3 @@
-import { Client, Users } from 'node-appwrite';
-
-// This is your Appwrite function
 export default async ({ req, res, log, error }) => {
   try {
     // Initialize the Appwrite client
@@ -20,11 +17,8 @@ export default async ({ req, res, log, error }) => {
       .setProject(process.env.APPWRITE_PROJECT_ID) // Use environment variable for Project ID
       .setKey(process.env.APPWRITE_API_KEY); // Use environment variable for API Key
 
-    // Log the request being made
-    log('Fetching user details...');
-
-    // Extract userId directly from the request body since it's already an object
-    const { userId } = req.body;
+    // Extract userId from request body or query parameters
+    const userId = req.body?.userId || req.query?.userId;
 
     // Log the extracted userId
     log(`Extracted userId: ${userId}`);
