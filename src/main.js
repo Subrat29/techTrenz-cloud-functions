@@ -26,6 +26,9 @@ export default async ({ req, res, log, error }) => {
   try {
     // Log the raw request body to inspect what was received
     log(`Raw request body: ${req.body}`);
+    
+    //type
+    log(`Type of request body: ${typeof req.body}`);
 
     // Parse the request body to extract userId
     const body = JSON.parse(req.body);
