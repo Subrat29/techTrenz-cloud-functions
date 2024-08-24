@@ -26,26 +26,11 @@ export default async ({ req, res, log, error }) => {
     let userId;
     try {
       // Log the raw request body to inspect what was received
-      log(`Raw request body: ${JSON.stringify(req.body)}`);
+      log(`Raw request body: ${req.body}`);
 
-      // Determine the type of req.body
-      log(`Type of request body: ${typeof req.body}`);
-
-      let body;
-
-      // Check if req.body is a string
-      if (typeof req.body === 'string') {
-        // Parse the string into a JSON object
-        body = JSON.parse(req.body);
-        log('Request body was a string and has been parsed into JSON.');
-      } else if (typeof req.body === 'object' && req.body !== null) {
-        // Use the object directly
-        body = req.body;
-        log('Request body is already a JSON object.');
-      } else {
-        // Handle unexpected types
-        throw new Error('Unsupported request body format.');
-      }
+      // Parse the string into a JSON object
+      const body = JSON.parse(req.body);
+      log('Request body was parsed into JSON.');
 
       // Extract userId from the body
       userId = body.userId;
