@@ -23,34 +23,11 @@ export default async ({ req, res, log, error }) => {
     // Log the request being made
     log('Fetching user details...');
 
-    let userId;
-    try {
-      // Ensure the request body is not empty
-      if (!req.body) {
-        throw new Error('Request body is empty');
-      }
+    // Extract userId directly from the request body since it's already an object
+    const { userId } = req.body;
 
-      // Log the raw request body to inspect what was received
-      log(`Raw request body: ${req.body}`);
-
-      // Parse the string into a JSON object
-      const body = JSON.parse(req.body);
-      log('Request body was parsed into JSON.');
-
-      // Extract userId from the body
-      userId = body.userId;
-
-      // Log the extracted userId
-      log(`Extracted userId: ${userId}`);
-    } catch (err) {
-      log(`Failed to parse JSON payload: ${err.message}`);
-      // Log the error if parsing fails
-      error(`Failed to parse JSON payload: ${err.message}`);
-      return res.json({
-        success: false,
-        message: 'Invalid JSON payload',
-      });
-    }
+    // Log the extracted userId
+    log(`Extracted userId: ${userId}`);
 
     // Check if userId is provided
     if (!userId) {
