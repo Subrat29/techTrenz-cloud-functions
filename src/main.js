@@ -20,19 +20,19 @@ export default async ({ req, res, log, error }) => {
       .setKey(process.env.APPWRITE_API_KEY); // Use environment variable for API Key
 
     // Extract userId from request body or query parameters
-    const userId = req.body?.userId || req.query?.userId;
+    const userId = req.body?.userId || req.query?.userId || req.headers['x-user-id'];
 
     // Log the extracted userId
     log(`Extracted userId: ${userId}`);
 
     // Check if userId is provided
-    // if (!userId) {
-    //   error('No userId provided');
-    //   return res.json({
-    //     success: false,
-    //     message: 'userId is required',
-    //   });
-    // }
+    if (!userId) {
+      error('No userId provided');
+      return res.json({
+        success: false,
+        message: 'userId is required',
+      });
+    }
 
     try {
       // Attempt to fetch user details from Appwrite
