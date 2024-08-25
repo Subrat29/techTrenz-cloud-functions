@@ -45,11 +45,9 @@ export default async ({ req, res, log, error }) => {
       return res.json(user);
     }
 
-    const { userId } = req.body ;
-    const user = await users.get(userId);
     // If the request is not a POST, send a default response
     log('Request method is not POST. Returning default response.');
-    return res.send(`Send a POST request with a userId to fetch user details. ${user}`);
+    return res.send('Send a POST request with a userId to fetch user details.');
   } catch (err) {
     // Log any errors with more details
     error(`An error occurred: ${err.message}`);
