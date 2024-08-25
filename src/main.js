@@ -65,13 +65,13 @@
 // };
 
 
-const sdk = require('node-appwrite');
+import { Client, Users } from 'node-appwrite';
 
 // Initialize the Appwrite client
-const client = new sdk.Client();
+const client = new Client();
 
 // Set up Appwrite services
-const users = new sdk.Users(client);
+const users = new Users(client);
 
 // Environment variables
 const projectId = process.env.APPWRITE_PROJECT_ID;
@@ -83,7 +83,7 @@ client
   .setProject(projectId) // Your Appwrite project ID
   .setKey(apiKey);       // Your Appwrite API key
 
-module.exports = async function(req, res) {
+export async function main(req, res) {
   try {
     const { userId } = JSON.parse(req.payload);
     
@@ -102,4 +102,5 @@ module.exports = async function(req, res) {
       error: error.message
     });
   }
-};
+}
+
